@@ -1,0 +1,38 @@
+{
+    "name": "mindscms/entrust",
+    "description": "This package provides a flexible way to add Role-based Permissions to Laravel Customized by Sami Mansour",
+    "keywords": ["laravel","illuminate","auth","roles","acl","permission"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sami Mansour",
+            "email": "mindscms@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "illuminate/console": "^6|^7",
+        "illuminate/support": "^6|^7",
+        "illuminate/cache": "^6|^7"
+    },
+    "autoload": {
+        "classmap": [
+            "src/commands"
+        ],
+        "psr-4": {
+            "Mindscms\\Entrust\\": "src/Entrust/"
+        }
+    },
+    "extra":{
+        "laravel":{
+            "providers":[
+                "Mindscms\\Entrust\\EntrustServiceProvider"
+            ],
+            "aliases":{
+                "Entrust": "Mindscms\\Entrust\\EntrustFacade"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}
