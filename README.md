@@ -100,12 +100,13 @@ After the migration, four new tables will be present:
 - `permissions` &mdash; stores permission records
 - `role_user` &mdash; stores [many-to-many](http://laravel.com/docs/4.2/eloquent#many-to-many) relations between roles and users
 - `permission_role` &mdash; stores [many-to-many](http://laravel.com/docs/4.2/eloquent#many-to-many) relations between roles and permissions
+- `user_permission` &mdash; stores [many-to-many](http://laravel.com/docs/4.2/eloquent#many-to-many) relations between users and permissions
 
 ### Models
 
 #### Role
 
-Create a Role model inside `app/models/Role.php` using the following example:
+Create a Role model inside `app/Role.php` using the following example:
 
 ```php
 <?php namespace App;
@@ -114,6 +115,7 @@ use Mindscms\Entrust\EntrustRole;
 
 class Role extends EntrustRole
 {
+    protected $guarded = [];
 }
 ```
 
@@ -126,7 +128,7 @@ Both `display_name` and `description` are optional; their fields are nullable in
 
 #### Permission
 
-Create a Permission model inside `app/models/Permission.php` using the following example:
+Create a Permission model inside `app/Permission.php` using the following example:
 
 ```php
 <?php namespace App;
@@ -135,6 +137,7 @@ use Mindscms\Entrust\EntrustPermission;
 
 class Permission extends EntrustPermission
 {
+    protected $guarded = [];
 }
 ```
 
@@ -147,22 +150,50 @@ In general, it may be helpful to think of the last two attributes in the form of
 
 #### User
 
-Next, use the `EntrustUserTrait` trait in your existing `User` model. For example:
+Next, use the `EntrustUserWithPermissionsTrait` trait in your existing `User` model. For example:
 
 ```php
 <?php
 
-use Mindscms\Entrust\Traits\EntrustUserTrait;
+use Mindscms\Entrust\Traits\EntrustUserWithPermissionsTrait;
 
-class User extends Eloquent
+class User extends Authenticatable
 {
-    use EntrustUserTrait; // add this trait to your user model
+    use EntrustUserWithPermissionsTrait; // add this trait to your user model
 
     ...
 }
 ```
 
 This will enable the relation with `Role` and add the following methods `roles()`, `hasRole($name)`, `withRole($name)`, `can($permission)`, and `ability($roles, $permissions, $options)` within your `User` model.
+
+#### User Permissions
+
+Create a UserPermissions model inside `app/UserPermissions.php` using the following example:
+
+```php
+<?php namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class UserPermissions extends Model
+{
+    protected $guarded = [];
+
+    public function permission()
+    {
+        return $this->belongsToMany(Permission::class, 'id', 'permission_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'id', 'user_id');
+    }
+}
+
+```
+
+
 
 Don't forget to dump composer autoload
 
