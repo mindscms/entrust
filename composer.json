@@ -12,9 +12,9 @@
     ],
     "require": {
         "php": ">=7.2",
-        "illuminate/console": ">=6",
-        "illuminate/support": ">=6",
-        "illuminate/cache": ">=6"
+        "illuminate/console": ">=6.0",
+        "illuminate/support": ">=6.0",
+        "illuminate/cache": ">=6.0"
     },
     "autoload": {
         "classmap": [
