@@ -1,6 +1,6 @@
 # ENTRUST (Laravel 8 Package) - Copied & Customized from (Zizaco/Entrust)
 
-Entrust is a succinct and flexible way to add Role-based Permissions to **Laravel 8**.
+Entrust is a succinct and flexible way to add Role-based Permissions up to **Laravel 10**.
 
 ## Contents
 
